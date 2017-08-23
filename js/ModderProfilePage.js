@@ -99,9 +99,8 @@ class ModderProfilePage extends ZeroFrame {
             var content_div = document.getElementById("content_div")
             if(data) {
                 var results = JSON.parse(data)
-                //document.getElementById("content_name").innerHTML = results.username
-                this.cm("dbQuery", [""], (results) => {
-                    //TODO finish
+                this.cmd("dbQuery", ["SELECT cert_user_id FROM json WHERE directory=\"users/" + auth_address + "\""], (results) => {
+                    document.getElementById("div_name").innerHTML = results[0].cert_user_id
                 })
                 if(!(/^.+$/.test(results.description)))
                     results.description = "No description available"
