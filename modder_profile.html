@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+ <title>New ZeroNet site!</title>
+ <meta charset="utf-8">
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+ <base href="" target="_top" id="base">
+ <link rel="stylesheet" href="css/main.css" />
+ <script>base.href = document.location.href.replace("/media", "").replace("index.html", "").replace(/[&?]wrapper=False/, "").replace(/[&?]wrapper_nonce=[A-Za-z0-9]+/, "")</script>
+</head>
+<body>
+<div class="header">
+    <div class="wip-header">Early Alpha Zite!   Can break at any point!   Use at your own risk!</div>
+    <ul class="navigation-list">
+        <li class="navigation-item"><a class="navigation-link" href="index.html">Home</a></li>
+        <li class="navigation-item">Blog</li>
+        <li class="navigation-item"><a class="navigation-link" href="#New+Mod" id="new_mod" onclick="return page.newMod()">+ Add new Mod</a></li>
+        <li class="navigation-item"><a class="navigation-link active" href="#Own+Page" id="own_page" onclick="return page.ownPage()">Own Page</a></li>
+        <li class="navigation-item" style="float: right; margin-right: 75px;"><a class="navigation-link select-user-link" href="#Select+User" id="select_user" onclick="return page.selectUser()">Select User</a></li>
+    </ul>
+</div>
+
+
+<div id="content_div" class="main-container">
+    <button id="edit_button" style="display: none;" onclick="return page.editProfile()">Edit Profile</button>
+    <!--<h2><div id="content_name"></div></h2><br>-->
+    <div id="mod_header" class="mod-header">
+        <div class="avatar"><img id="modder_icon_display"></div>
+        <div class="details">
+            <div id="div_name" class="mod-details-name"></div>
+            <div id="div_project_type" class="mod-details-type">Mod Creator</div><br>
+        </div>
+    </div>
+    <div class="tab">
+        <button id="tabbutton_desc" class="tablinks" onclick="openTab(event, 'tab_description')">Description</button>
+        <button class="tablinks" onclick="openTab(event, 'tab_projects')">Projects</button>
+        <button class="tablinks" onclick="openTab(event, 'tab_links')">Files</button>
+    </div>
+    <div id="tab_description" class="tabcontent">
+        <div id="content_desc"></div><br>
+    </div>
+    <div id="tab_projects" class="tabcontent">
+        <div id="mod_list">
+    
+        </div>
+    </div>
+    <div id="tab_links" class="tabcontent">
+        Lnks coming soon
+    </div>
+</div>
+
+
+<div id="create_div" class="main-container" style="display: none;">
+    <h1>Create new modder account</h1>
+    <!--Username*: <input type="text" id="input_name" /><br>-->
+    Picture: <i>Coming soon<sup>TM</sup></i><br>
+    Description: <textarea id="input_desc"></textarea><br>
+    Donations: <textarea id="input_donate"></textarea><br>
+    Links: <textarea id="input_links"></textarea><br>
+    <button onclick="return page.submitAccount()">Save and Publish</button>
+</div>
+
+<script type="text/javascript" src="js/ZeroFrame.js"></script>
+<script type="text/javascript" src="js/ModderProfilePage.js"></script>
+<script>
+    page = new ModderProfilePage()
+    document.getElementById("tabbutton_desc").click()
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+        page.tabSelect(tabName)
+    }
+</script>
+
+</body>
+</html>

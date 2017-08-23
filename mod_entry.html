@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>ZeroMinecraft Mod Page</title>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <base href="" target="_top" id="base">
+    <link rel="stylesheet" href="css/main.css" />
+    <script>base.href = document.location.href.replace("/media", "").replace("index.html", "").replace(/[&?]wrapper=False/, "").replace(/[&?]wrapper_nonce=[A-Za-z0-9]+/, "")</script>
+</head>
+<body>
+<div class="header">
+    <div class="wip-header">Early Alpha Zite!   Can break at any point!   Use at your own risk!</div>
+    <ul class="navigation-list">
+    <li class="navigation-item"><a class="navigation-link" href="index.html">Home</a></li>
+    <li class="navigation-item">Blog</li>
+    <li class="navigation-item"><a class="navigation-link" href="#New+Mod" id="new_mod" onclick="return page.newMod()">+ Add new Mod</a></li>
+    <li class="navigation-item"><a class="navigation-link" href="#Own+Page" id="own_page" onclick="return page.ownPage()">Own Page</a></li>
+    <li class="navigation-item" style="float: right; margin-right: 75px;"><a class="navigation-link select-user-link" href="#Select+User" id="select_user" onclick="return page.selectUser()">Select User</a></li>
+    </ul>
+</div>
+
+<div id="content" class="main-container">
+    <div id="mod_details">
+        <div id="mod_owner_options" style="display: none;">
+            <button onclick="page.editMod()">Edit Details</button>
+            <button onclick="page.newFile()">Upload new file</button>
+        </div>
+        
+        <div id="mod_header" class="mod-header">
+            <div class="avatar"><img id="mod_icon_display"></div>
+            <div class="details">
+                <div id="div_name" class="mod-details-name"></div>
+                <div id="div_project_type" class="mod-details-type">Mod</div><br>
+                <div>Creator: <a id="creator_link">ERROR</a></div>
+                <div>License: <a id="license_link">Unspecified (All rights reserved)</a></div>
+            </div>
+        </div>
+        <div class="tab">
+            <button id="tabbutton_desc" class="tablinks" onclick="openTab(event, 'tab_description')">Description</button>
+            <button class="tablinks" onclick="openTab(event, 'tab_comments')">Comments</button>
+            <button class="tablinks" onclick="openTab(event, 'tab_files')">Files</button>
+        </div>
+        <div id="tab_description" class="tabcontent">
+            <div id="div_desc"></div><br>
+        </div>
+        <div id="tab_comments" class="tabcontent">
+            Coming soon
+        </div>
+        <div id="tab_files" class="tabcontent">
+            <h1>Recent files:</h1><br>
+            <table id="file_list">
+                <tr>
+                    <th>Release Type</th>
+                    <th>Version</th>
+                    <th>Download</th>
+                    <th>Size</th>
+                    <th>Peers</th>
+                    <th>Uploaded</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="create_mod" style="display:none;">
+        <h1>Create new mod</h1><br>
+        Name*: <input type="text" id="mod_name_input" /><br>
+        Icon: <input type="file" id="mod_icon_input" /><button id="mod_icon_upload_button" onclick="page.modIconUploadClick()" style="color: red;">Upload Image</button><br>
+        Description*: <textarea id="mod_desc_input"></textarea><br>
+        Category*: 
+        <select id="category_input">
+            <option value="tools">Armor, Tools and Weapons</option>
+            <option value="cosmetic">Cosmetic</option>
+            <option value="food">Food</option>
+            <option value="magic">Magic</option>
+            <option value="redstone">Redstone</option>
+            <option value="storage">Storage</option>
+            <option value="tech">Technology</option>
+            <option value="world_gen">World Gen</option>
+            <option value="api">API and Library</option>
+            <option value="misc">Miscellaneous</option>
+        </select>
+        <br>
+        <button onclick="page.submitMod()">Save and Publish</button>
+    </div>
+
+    <div id="new_file" style="display: none;">
+        <h2>Upload new file:</h2>
+        Version*: <input type=text id="version_input" /><br>
+        Release Type: 
+        <select id="release_input">
+            <option value="release">Release</option>
+            <option value="beta">Beta</option>
+            <option value="alpha">Alpha</option>
+            <option value="experimental">Experimental</option>
+        </select><br>
+        <input type="file" id="mod_file_input"/><button id="mod_file_button" onclick="page.saveModFile()">Upload File</button>
+        <br>
+        <button onclick="page.submitFile()">Save and Publish</button>
+    <div>
+</div>
+<script type="text/javascript" src="js/ZeroFrame.js"></script>
+<script type="text/javascript" src="js/ModEntryPage.js"></script>
+<script>
+    page = new ModEntryPage()
+    document.getElementById("tabbutton_desc").click()
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+        page.tabSelect(tabName)
+    }
+</script>
+
+</body>
+</html>

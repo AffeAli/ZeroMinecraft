@@ -1,0 +1,64 @@
+{
+    "db_name": "ZeroMods",
+    "db_file": "data/zeromods.db",
+    "version": 2,
+    "maps": {
+        "users/.+/data.json": {
+            "to_table": [ "topic", "deps", "files" ],
+            "to_keyvalue": ["username", "description", "next_topic_id", "next_file_id", "next_dep_id"]
+        },
+        "users/.+/content.json": {
+            "to_json_table": [ "cert_user_id" ],
+            "file_name": "data.json"
+        }
+        
+    },
+    "tables": {
+        "json": {
+            "cols": [
+                ["json_id", "INTEGER PRIMARY KEY AUTOINCREMENT"],
+                ["directory", "TEXT"],
+                ["file_name", "TEXT"],
+                ["cert_user_id", "TEXT"]
+            ],
+            "indexes": ["CREATE UNIQUE INDEX path ON json(directory, file_name)"],
+            "schema_changed": 10
+        },
+        "topic": {
+            "cols": [
+                ["topic_id", "INTEGER"],
+                ["name", "TEXT"],
+                ["description", "TEXT"],
+                ["category", "INTEGER"],
+                ["added", "INTEGER"],
+                ["license", "TEXT"],
+                ["json_id", "INTEGER REFERENCES json (json_id)"]
+            ],
+            "indexes": ["CREATE UNIQUE INDEX topic_key ON topic(topic_id, json_id)"],
+            "schema_changed": 10
+        },
+        "deps": {
+            "cols": [
+                ["dep_id", "INTEGER"],
+                ["depends", "INTEGER REFERENCES topic (topic_id)"],
+                ["dependency", "TEXT"],
+                ["relation", "TEXT"],
+                ["json_id", "INTEGER REFERENCES json (json_id)"]
+            ],
+            "indexes": ["CREATE UNIQUE INDEX deps_key ON deps(dep_id, json_id)"],
+            "schema_changed": 10
+        },
+        "files": {
+            "cols": [
+                ["file_id", "INTEGER"],
+                ["topic_id", "INTEGER REFERENCES topic (topic_id)"],
+                ["version", "TEXT"],
+                ["added", "INTEGER"],
+                ["type", "TEXT"],
+                ["json_id", "INTEGER REFERENCES json (json_id)"]
+            ],
+            "indexes": ["CREATE UNIQUE INDEX files_key ON files(file_id, json_id)"],
+            "schema_changed": 10
+        }
+    }
+}

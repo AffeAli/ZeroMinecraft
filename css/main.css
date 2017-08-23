@@ -1,0 +1,177 @@
+div.wip-header {
+     background-color: black;
+     color: yellow;
+     overflow-y: auto;
+     text-align: center;
+}
+div.header {
+    position: fixed;
+    height: 80px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+div.main-container {
+    margin-top: 80px;
+}
+ul.project-list {
+    list-style: none;
+    padding: 20px;
+}
+li.project-list-item {
+    margin-bottom: 20px;
+    border: 1px solid;
+    outline-color: gray;
+    position: relative;
+}
+a.project-link {
+    color: black;
+    text-decoration: none;
+    font-size: 1.5em;
+}
+a.project-link:hover {
+    color: #965ff9;
+}
+img.list-category-item {
+    float: right;
+    width: 32px;
+    height: 32px;
+}
+a.select-user-link {
+    color: blue;
+    text-decoration: none;
+}
+ul.navigation-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;/*
+    background-image: url("../icons/zerominecraft.png");
+    background-repeat: repeat;
+    background-size: 100px 100px;*/
+    background-color: #000000;
+}
+li.navigation-item {
+    float: left;
+}
+a.navigation-link {
+    display: block;
+    padding: 14px 16px;
+    color: white;
+    background: #00000000;
+    font-size: 1.2em;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background 1s;
+    border-radius: 25px;
+}
+a.navigation-link:hover {
+    background: #965ff9;
+}
+a.active {
+    background: #965ff9;
+    border-radius: 0;
+}
+h1 {
+    color:red;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    text-align: center;
+}
+div.avatar {
+    width: 128px;
+    height: 128px;
+    margin: 10px;
+    display: inline-block;
+}
+div.details {
+    height: 128px;
+    width: auto;
+    display: inline-block;
+    position: absolute;
+    margin: 10px;
+    color: #ababab;
+}
+div.mod-header {
+    margin: 10px;
+    height: 138px;
+}
+div.mod-details-name {
+    font-size: 2em;
+    color: black;
+}
+
+ /* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: black;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #965ff9;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #965ff9;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+div.release-type {
+    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+.rainbow {
+-webkit-animation:rainbow 2s infinite;
+animation:rainbow 2s infinite;
+}
+@-webkit-keyframes rainbow {
+0% {background-color: #ff0000;}
+10% {background-color: #ff8000;}
+20% {background-color: #ffff00;}
+30% {background-color: #80ff00;}
+40% {background-color: #00ff00;}
+50% {background-color: #00ff80;}
+60% {background-color: #00ffff;}
+70% {background-color: #0080ff;}
+80% {background-color: #0000ff;}
+90% {background-color: #8000ff;}
+100% {background-color: #ff0080;}
+}
+@keyframes rainbow {
+0% {background-color: #ff0000;}
+10% {background-color: #ff8000;}
+20% {background-color: #ffff00;}
+30% {background-color: #80ff00;}
+40% {background-color: #00ff00;}
+50% {background-color: #00ff80;}
+60% {background-color: #00ffff;}
+70% {background-color: #0080ff;}
+80% {background-color: #0000ff;}
+90% {background-color: #8000ff;}
+100% {background-color: #ff0080;}
+}
