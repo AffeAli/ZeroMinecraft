@@ -65,13 +65,13 @@ class ModderProfilePage extends ZeroFrame {
             else
                 data = { "username": "","topic": [], "deps": [], "files": [] }
             
-            var name_unprocessed = document.getElementById("input_name").value
+            /*var name_unprocessed = document.getElementById("input_name").value
             if(!(/^[a-z0-9]+$/i.test(name_unprocessed))) {
                 this.cmd("wrapperNotification", [ "error", "Invalid username" ])
                 return false;
             }
             
-            data.username = name_unprocessed
+            data.username = name_unprocessed*/
             data.description = document.getElementById("input_desc").value
             data.date_updated = Date.now()
             

@@ -63,6 +63,10 @@ class ModEntryPage extends ZeroFrame {
             //document.getElementById("div_category").innerHTML = details[0].category
             document.getElementById("category_input").value = details[0].category
             document.getElementById("mod_icon_display").src = "data/" + details[0].directory + "/topicicon_" + details[0].topic_id + ".jpg"
+            if(details[0].license && details[0].license != "") {
+                document.getElementById("license_input").value = details[0].license
+                document.getElementById("license_link").innerHTML = details[0].license
+            }
             
             if(modder_auth == this.site_info.auth_address) {
                 document.getElementById("mod_owner_options").style = ""
@@ -211,6 +215,7 @@ class ModEntryPage extends ZeroFrame {
                     "name": document.getElementById("mod_name_input").value,
                     "description": document.getElementById("mod_desc_input").value,
                     "category": document.getElementById("category_input").value,
+                    "license": document.getElementById("license_input"),
                     "added": Date.now()
                 })
             }
@@ -220,7 +225,8 @@ class ModEntryPage extends ZeroFrame {
                 })
                 file.topic[index].name = document.getElementById("mod_name_input").value,
                 file.topic[index].description = document.getElementById("mod_desc_input").value,
-                file.topic[index].category = document.getElementById("category_input").value
+                file.topic[index].category = document.getElementById("category_input").value,
+                file.topic[index].license = document.getElementById("license_input").value
             }
             var json_raw = unescape(encodeURIComponent(JSON.stringify(file, undefined, '\t')))
             
