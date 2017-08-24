@@ -21,6 +21,9 @@ class ModEntryPage extends ZeroFrame {
     }
 
     load() {
+        var md = window.markdownit()
+        md.set({ html: true })
+        
         var url = new URL(window.location.href)
         var mod_address = url.searchParams.get("mod_address")
         var data_array = mod_address.split("_")
@@ -55,7 +58,7 @@ class ModEntryPage extends ZeroFrame {
                 document.getElementById("license_link").innerHTML = details[0].license
             document.getElementById("div_name").innerHTML = details[0].name
             document.getElementById("mod_name_input").value = details[0].name
-            document.getElementById("div_desc").innerHTML = details[0].description
+            document.getElementById("div_desc").innerHTML = md.render(details[0].description)
             document.getElementById("mod_desc_input").value = details[0].description
             //document.getElementById("div_category").innerHTML = details[0].category
             document.getElementById("category_input").value = details[0].category

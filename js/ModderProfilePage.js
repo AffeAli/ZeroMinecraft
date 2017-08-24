@@ -113,6 +113,8 @@ class ModderProfilePage extends ZeroFrame {
     }
 
 	load() {
+        var md = window.markdownit()
+        md.set({ html: true })
         var url = new URL(window.location.href)
         var auth_address = url.searchParams.get("auth_address")
         
@@ -124,10 +126,10 @@ class ModderProfilePage extends ZeroFrame {
                 this.cmd("dbQuery", ["SELECT cert_user_id FROM json WHERE directory=\"users/" + auth_address + "\""], (results) => {
                     document.getElementById("div_name").innerHTML = results[0].cert_user_id
                 })
-                if(!(/^.+$/.test(results.description)))
+                if(results.description == "")
                     results.description = "No description available"
-                document.getElementById("content_desc").innerHTML = results.description
-                document.getElementById("input_desc").innerHTML = results.description
+                document.getElementById("content_desc").innerHTML = md.render(results.description)
+                document.getElementById("input_desc").value = results.description
                 
                 document.getElementById("modder_icon_display").src = "data/users/" + auth_address + "/avatar.jpg"
                 
