@@ -79,7 +79,9 @@ class ModderProfilePage extends ZeroFrame {
             var json_raw = unescape(encodeURIComponent(JSON.stringify(data, undefined, '\t')))
             this.cmd("fileWrite", [data_inner_path, btoa(json_raw)], (res) => {
                 if(res == "ok") {
-                    //TODO Exit edit mode
+                    document.getElementById("content_div").style = ""
+                    document.getElementById("create_div").style = "display: none;"
+                    this.load()
                     this.cmd("siteSign", {"inner_path": content_inner_path}, (res) => {
                         this.cmd("sitePublish", {"inner_path": content_inner_path, "sign": false})
                     })
@@ -87,12 +89,32 @@ class ModderProfilePage extends ZeroFrame {
             })
         })
     }
+    
+    avatarSubmit() {
+        //this.checkOptionalRegex()
+        var file = document.getElementById("avatar_input").files[0]
+        var fileReader = new FileReader()
+        var that = this
+        fileReader.onload = function(evt) {
+            var fileData = evt.target.result;
+            var bytes = new Uint8Array(fileData);
+            var binaryText = '';
+
+            for (var index = 0; index < bytes.byteLength; index++) {
+                binaryText += String.fromCharCode( bytes[index] );
+            }
+            
+            var path = "data/users/" + that.site_info.auth_address + "/avatar.jpg"
+            that.cmd("fileWrite", [path, btoa(binaryText)], (res) => {
+                that.cmd("wrapperNotification", ["done", "Saved file"])
+            })
+        }
+        fileReader.readAsArrayBuffer(file)
+    }
 
 	load() {
-        console.log("id load!!!!!")
         var url = new URL(window.location.href)
         var auth_address = url.searchParams.get("auth_address")
-        console.log(auth_address)
         
         var data_inner_path = "data/users/" + auth_address + "/data.json"
         this.cmd("fileGet", {"inner_path": data_inner_path, "required": false}, (data) => {
@@ -105,6 +127,9 @@ class ModderProfilePage extends ZeroFrame {
                 if(!(/^.+$/.test(results.description)))
                     results.description = "No description available"
                 document.getElementById("content_desc").innerHTML = results.description
+                document.getElementById("input_desc").innerHTML = results.description
+                
+                document.getElementById("modder_icon_display").src = "data/users/" + auth_address + "/avatar.jpg"
                 
                 if(auth_address == this.site_info.auth_address)
                     document.getElementById("edit_button").style = ""

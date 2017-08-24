@@ -51,13 +51,13 @@
 </div>
 
 
-<div id="create_div" class="main-container" style="display: none;">
+<div id="create_div" class="main-container edit-container" style="display: none;">
     <h1>Create new modder account</h1>
     <!--Username*: <input type="text" id="input_name" /><br>-->
-    Picture: <i>Coming soon<sup>TM</sup></i><br>
-    Description: <textarea id="input_desc"></textarea><br>
-    Donations: <textarea id="input_donate"></textarea><br>
-    Links: <textarea id="input_links"></textarea><br>
+    Picture: <input type="file" id="avatar_input"></input><button onclick="return page.avatarSubmit()">Save File</button><br>
+    Description:<br><textarea id="input_desc"></textarea><br>
+    Donations:<br><textarea id="input_donate"></textarea><br>
+    Links:<br><textarea id="input_links"></textarea><br>
     <button onclick="return page.submitAccount()">Save and Publish</button>
 </div>
 

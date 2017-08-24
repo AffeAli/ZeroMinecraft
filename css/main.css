@@ -145,6 +145,15 @@ div.release-type {
     text-align: center;
     line-height: 30px;
 }
+div.edit-container {
+    font-size: 20px;
+}
+textarea {
+    font-size: 1.1em;
+    margin: 10px;
+    width: 90%;
+    height: 100px;
+}
 .rainbow {
 -webkit-animation:rainbow 2s infinite;
 animation:rainbow 2s infinite;
