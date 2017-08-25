@@ -45,43 +45,43 @@ class ModEntryPage extends ZeroFrame {
             }
             if(details.length == 0) {
                 if(modder_auth == this.site_info.auth_address) {
-                    document.getElementById("create_mod").style = ""
+                    $("create_mod").style = ""
                 }
                 else {
-                    document.getElementById("content").innerHTML = "This mod does not exist"
+                    $("content").innerHTML = "This mod does not exist"
                 }
                 return false
             }
-            document.getElementById("creator_link").innerHTML = details[0].cert_user_id
-            document.getElementById("creator_link").href = "modder_profile.html?auth_address=" + details[0].directory.replace("users/", "")
+            $("creator_link").innerHTML = details[0].cert_user_id
+            $("creator_link").href = "modder_profile.html?auth_address=" + details[0].directory.replace("users/", "")
             if(details[0].license && details[0].license != "")
-                document.getElementById("license_link").innerHTML = details[0].license
-            document.getElementById("div_name").innerHTML = details[0].name
-            document.getElementById("mod_name_input").value = details[0].name
-            document.getElementById("div_desc").innerHTML = md.render(details[0].description)
-            document.getElementById("mod_desc_input").value = details[0].description
             //document.getElementById("div_category").innerHTML = details[0].category
-            document.getElementById("category_input").value = details[0].category
-            document.getElementById("mod_icon_display").src = "data/" + details[0].directory + "/topicicon_" + details[0].topic_id + ".jpg"
+                $("license_link").innerHTML = details[0].license
+            $("div_name").innerHTML = details[0].name
+            $("mod_name_input").value = details[0].name
+            $("div_desc").innerHTML = md.render(details[0].description)
+            $("mod_desc_input").value = details[0].description
+            $("category_input").value = details[0].category
+            $("mod_icon_display").src = "data/" + details[0].directory + "/topicicon_" + details[0].topic_id + ".jpg"
             if(details[0].license && details[0].license != "") {
-                document.getElementById("license_input").value = details[0].license
-                document.getElementById("license_link").innerHTML = details[0].license
+                $("license_input").value = details[0].license
+                $("license_link").innerHTML = details[0].license
             }
             
             if(modder_auth == this.site_info.auth_address) {
-                document.getElementById("mod_owner_options").style = ""
+                $("mod_owner_options").style = ""
             }
         })
     }
     
     newFile() {
-        document.getElementById("mod_details").style = "display: none;"
-        document.getElementById("new_file").style = ""
+        $("mod_details").style = "display: none;"
+        $("new_file").style = ""
     }
     
     saveModFile() {
         this.checkOptionalRegex()
-        var file = document.getElementById("mod_file_input").files[0]
+        var file = $("mod_file_input").files[0]
         var reader = new FileReader();
         var that = this
         reader.onload = function(evt) {
@@ -129,9 +129,9 @@ class ModEntryPage extends ZeroFrame {
             data.files.push({
                 "file_id": file_id,
                 "topic_id": topic_id,
-                "version": document.getElementById("version_input").value,
+                "version": $("version_input").value,
                 "added": Date.now(),
-                "type": document.getElementById("release_input").value
+                "type": $("release_input").value
             })
             
             var json_raw = unescape(encodeURIComponent(JSON.stringify(data, undefined, '\t')))
@@ -166,7 +166,7 @@ class ModEntryPage extends ZeroFrame {
     
     modIconUploadClick() {
         this.checkOptionalRegex()
-        var file = document.getElementById("mod_icon_input").files[0]
+        var file = $("mod_icon_input").files[0]
         var reader = new FileReader();
         var that = this
         reader.onload = function(evt) {
@@ -181,7 +181,7 @@ class ModEntryPage extends ZeroFrame {
             var path = "data/users/" + that.site_info.auth_address + "/topicicon_" + that.getURLArgument("mod_id") + ".jpg"
             that.cmd("fileWrite", [path, btoa(binaryText)], (res) => {
                 if(res == "ok") {
-                    var button = document.getElementById("mod_icon_upload_button")
+                    var button = $("mod_icon_upload_button")
                     button.style = "color: green;"
                     button.enabled = false
                 }
@@ -212,10 +212,10 @@ class ModEntryPage extends ZeroFrame {
             if(newTopic) {
                 file.topic.push({
                     "topic_id": topic_id,
-                    "name": document.getElementById("mod_name_input").value,
-                    "description": document.getElementById("mod_desc_input").value,
-                    "category": document.getElementById("category_input").value,
-                    "license": document.getElementById("license_input"),
+                    "name": $("mod_name_input").value,
+                    "description": $("mod_desc_input").value,
+                    "category": $("category_input").value,
+                    "license": $("license_input"),
                     "added": Date.now()
                 })
             }
@@ -223,10 +223,10 @@ class ModEntryPage extends ZeroFrame {
                 var index = file.topic.findIndex(function(node) {
                     return node.topic_id == topic_id
                 })
-                file.topic[index].name = document.getElementById("mod_name_input").value,
-                file.topic[index].description = document.getElementById("mod_desc_input").value,
-                file.topic[index].category = document.getElementById("category_input").value,
-                file.topic[index].license = document.getElementById("license_input").value
+                file.topic[index].name = $("mod_name_input").value,
+                file.topic[index].description = $("mod_desc_input").value,
+                file.topic[index].category = $("category_input").value,
+                file.topic[index].license = $("license_input").value
             }
             var json_raw = unescape(encodeURIComponent(JSON.stringify(file, undefined, '\t')))
             
@@ -262,8 +262,8 @@ class ModEntryPage extends ZeroFrame {
     }
     
     editMod() {
-        document.getElementById("create_mod").style = ""
-        document.getElementById("mod_details").style = "display: none;"
+        $("create_mod").style = ""
+        $("mod_details").style = "display: none;"
     }
     
     ownPage() {
@@ -279,7 +279,7 @@ class ModEntryPage extends ZeroFrame {
 	onOpenWebsocket() {
 		this.cmd("siteInfo", {}, (site_info) => {
             if(site_info.cert_user_id)
-                document.getElementById("select_user").innerHTML = site_info.cert_user_id
+                $("select_user").innerHTML = site_info.cert_user_id
             this.site_info = site_info
         })
         this.load()
@@ -288,9 +288,9 @@ class ModEntryPage extends ZeroFrame {
 	onRequest(cmd, message) {
 		if (cmd == "setSiteInfo") {
             if(message.params.cert_user_id)
-                document.getElementById("select_user").innerHTML = message.params.cert_user_id
+                $("select_user").innerHTML = message.params.cert_user_id
             else
-                document.getElementById("select_user").innerHTML = "Select User"
+                $("select_user").innerHTML = "Select User"
 			this.site_info = message.params
         }
 		else
@@ -299,7 +299,7 @@ class ModEntryPage extends ZeroFrame {
 	
 	tabSelect(tab) {
         if(tab == "tab_files") {
-            var fileList = document.getElementById("file_list")
+            var fileList = $("file_list")
             var query = "SELECT file_id, version, added, type, directory FROM files LEFT JOIN json USING (json_id) WHERE topic_id=" + this.getURLArgument("mod_id") + " AND directory=\"users/" + this.getURLArgument("modder_auth") + "\" ORDER BY added DESC"
             this.cmd("dbQuery", [query], (files) => {
                 for(var i = 0; i < files.length; i++) {
@@ -364,11 +364,11 @@ class ModEntryPage extends ZeroFrame {
                         var fileID = data.inner_path.replace("data/users/" + this.getURLArgument("modder_auth") + "/", "").replace("_" + this.getURLArgument("mod_address") + ".jar", "")
                         this.log(data)
                         this.log(downLink.href)
-                        document.getElementById("divPeerNumber" + fileID).innerHTML = data.peer
-                        document.getElementById("cellSize" + fileID).innerHTML = data.size
+                        $("divPeerNumber" + fileID).innerHTML = data.peer
+                        $("cellSize" + fileID).innerHTML = data.size
                         this.log(i + " " + data.peer)
                         if(data.is_downloaded == 1)
-                            document.getElementById("divStatus" + fileID).innerHTML = "&#10003;"
+                            $("divStatus" + fileID).innerHTML = "&#10003;"
                     })
                     fileList.append(row)
                     

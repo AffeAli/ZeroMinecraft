@@ -39,7 +39,7 @@ class IndexPage extends ZeroFrame {
                     item.append(div_details)
                 list.append(item)
             }
-            document.getElementById("new_mod_list").append(list)
+            $("new_mod_list").append(list)
         })
     }
 
@@ -78,7 +78,7 @@ class IndexPage extends ZeroFrame {
 	onOpenWebsocket() {
 		this.cmd("siteInfo", {}, (site_info) => {
             if(site_info.cert_user_id)
-                document.getElementById("select_user").innerHTML = site_info.cert_user_id
+                $("select_user").innerHTML = site_info.cert_user_id
             this.site_info = site_info
         })
         this.fillList()
@@ -87,9 +87,9 @@ class IndexPage extends ZeroFrame {
 	onRequest(cmd, message) {
 		if (cmd == "setSiteInfo") {
             if(message.params.cert_user_id)
-                document.getElementById("select_user").innerHTML = message.params.cert_user_id
+                $("select_user").innerHTML = message.params.cert_user_id
             else
-                document.getElementById("select_user").innerHTML = "Select User"
+                $("select_user").innerHTML = "Select User"
 			this.site_info = message.params
         }
 		else

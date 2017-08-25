@@ -8,8 +8,8 @@ class ModderProfilePage extends ZeroFrame {
                 html += "<li class=\"project-list-item\"><a class=\"project-link\" href=\"mod_entry.html?mod_address=" + topics[i].topic_id + topics[i].directory.replace("users/", "_") + "\">" + topics[i].name + "</a></li>"
             }
             document.getElementById("mod_list").innerHTML = html*/
-            if(document.getElementById("main_list"))
-                document.getElementById("mod_list").removeChild(document.getElementById("main_list"))
+            if($("main_list"))
+                $("mod_list").removeChild($("main_list"))
             
             var list = document.createElement("ul")
             list.id = "main_list"
@@ -42,7 +42,7 @@ class ModderProfilePage extends ZeroFrame {
                     item.append(div_details)
                 list.append(item)
             }
-            document.getElementById("mod_list").append(list)
+            $("mod_list").append(list)
         })
     }
 
@@ -52,8 +52,8 @@ class ModderProfilePage extends ZeroFrame {
     }
     
     editProfile() {
-        document.getElementById("content_div").style = "display: none;"
-        document.getElementById("create_div").style = ""
+        $("content_div").style = "display: none;"
+        $("create_div").style = ""
     }
     
     submitAccount() {
@@ -72,15 +72,15 @@ class ModderProfilePage extends ZeroFrame {
             }
             
             data.username = name_unprocessed*/
-            data.description = document.getElementById("input_desc").value
+            data.description = $("input_desc").value
             data.date_updated = Date.now()
             
             
             var json_raw = unescape(encodeURIComponent(JSON.stringify(data, undefined, '\t')))
             this.cmd("fileWrite", [data_inner_path, btoa(json_raw)], (res) => {
                 if(res == "ok") {
-                    document.getElementById("content_div").style = ""
-                    document.getElementById("create_div").style = "display: none;"
+                    $("content_div").style = ""
+                    $("create_div").style = "display: none;"
                     this.load()
                     this.cmd("siteSign", {"inner_path": content_inner_path}, (res) => {
                         this.cmd("sitePublish", {"inner_path": content_inner_path, "sign": false})
@@ -92,7 +92,7 @@ class ModderProfilePage extends ZeroFrame {
     
     avatarSubmit() {
         //this.checkOptionalRegex()
-        var file = document.getElementById("avatar_input").files[0]
+        var file = $("avatar_input").files[0]
         var fileReader = new FileReader()
         var that = this
         fileReader.onload = function(evt) {
@@ -120,26 +120,26 @@ class ModderProfilePage extends ZeroFrame {
         
         var data_inner_path = "data/users/" + auth_address + "/data.json"
         this.cmd("fileGet", {"inner_path": data_inner_path, "required": false}, (data) => {
-            var content_div = document.getElementById("content_div")
+            var content_div = $("content_div")
             if(data) {
                 var results = JSON.parse(data)
                 this.cmd("dbQuery", ["SELECT cert_user_id FROM json WHERE directory=\"users/" + auth_address + "\""], (results) => {
-                    document.getElementById("div_name").innerHTML = results[0].cert_user_id
+                    $("div_name").innerHTML = results[0].cert_user_id
                 })
                 if(results.description == "")
                     results.description = "No description available"
-                document.getElementById("content_desc").innerHTML = md.render(results.description)
-                document.getElementById("input_desc").value = results.description
+                $("content_desc").innerHTML = md.render(results.description)
+                $("input_desc").value = results.description
                 
-                document.getElementById("modder_icon_display").src = "data/users/" + auth_address + "/avatar.jpg"
+                $("modder_icon_display").src = "data/users/" + auth_address + "/avatar.jpg"
                 
                 if(auth_address == this.site_info.auth_address)
-                    document.getElementById("edit_button").style = ""
+                    $("edit_button").style = ""
             }
             else {
                 if(auth_address == this.site_info.auth_address) {
-                    document.getElementById("content_div").style = "display: none;"
-                    document.getElementById("create_div").style = ""
+                    $("content_div").style = "display: none;"
+                    $("create_div").style = ""
                 }
                 else {
                     content_div.innerHTML = "This account does not exist"
@@ -152,7 +152,7 @@ class ModderProfilePage extends ZeroFrame {
 	onOpenWebsocket() {
 		this.cmd("siteInfo", {}, (site_info) => {
             if(site_info.cert_user_id)
-                document.getElementById("select_user").innerHTML = site_info.cert_user_id
+                $("select_user").innerHTML = site_info.cert_user_id
             this.site_info = site_info
             this.load()
         })
@@ -161,13 +161,17 @@ class ModderProfilePage extends ZeroFrame {
 	onRequest(cmd, message) {
 		if (cmd == "setSiteInfo") {
             if(message.params.cert_user_id)
-                document.getElementById("select_user").innerHTML = message.params.cert_user_id
+                $("select_user").innerHTML = message.params.cert_user_id
             else
-                document.getElementById("select_user").innerHTML = "Select User"
+                $("select_user").innerHTML = "Select User"
 			this.site_info = message.params
 			this.load()
         }
 		else
 			this.log("Unknown incoming message:", cmd)
 	}
+	
+	tabSelect() {
+        
+    }
 }
