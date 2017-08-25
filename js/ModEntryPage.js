@@ -342,14 +342,17 @@ class ModEntryPage extends ZeroFrame {
                         row.append(cellDownload)
                         
                         var cellSize = document.createElement("td")
+                        cellSize.id = "cellSize" + files[i].file_id
                         row.append(cellSize)
                         
                         var cellPeers = document.createElement("td")
                             var divStatus = document.createElement("div")
+                            divStatus.id = "divStatus" + files[i].file_id
                             divStatus.innerHTML = "&#10060;"
                             cellPeers.append(divStatus)
                             
                             var divPeerNumber = document.createElement("div")
+                            divPeerNumber.id ="divPeerNumber" + files[i].file_id
                             cellPeers.append(divPeerNumber)
                         row.append(cellPeers)
                         
@@ -358,12 +361,14 @@ class ModEntryPage extends ZeroFrame {
                         row.append(cellAdded)
                     
                     this.cmd("optionalFileInfo", ["data/" + files[i].directory + "/" + files[i].file_id + "_" + this.getURLArgument("mod_address") + ".jar"], (data) => {
+                        var fileID = data.inner_path.replace("data/users/" + this.getURLArgument("modder_auth") + "/", "").replace("_" + this.getURLArgument("mod_address") + ".jar", "")
                         this.log(data)
                         this.log(downLink.href)
-                        divPeerNumber.innerHTML = data.peer
-                        cellSize.innerHTML = data.size
+                        document.getElementById("divPeerNumber" + fileID).innerHTML = data.peer
+                        document.getElementById("cellSize" + fileID).innerHTML = data.size
+                        this.log(i + " " + data.peer)
                         if(data.is_downloaded == 1)
-                            divStatus.innerHTML = "&#10003;"
+                            document.getElementById("divStatus" + fileID).innerHTML = "&#10003;"
                     })
                     fileList.append(row)
                     
