@@ -54,11 +54,13 @@
             <table id="file_list">
                 <tr>
                     <th>Release Type</th>
+                    <th>MC Version</th>
                     <th>Version</th>
                     <th>Download</th>
                     <th>Size</th>
                     <th>Peers</th>
-                    <th>Uploaded</th>
+                    <th>Added</th>
+                    <th>Alternative Downloads</th>
                 </tr>
             </table>
         </div>
@@ -68,7 +70,8 @@
         <h1>Create new mod</h1><br>
         Name*: <input type="text" id="mod_name_input" /><br>
         Icon: <input type="file" id="mod_icon_input" /><button id="mod_icon_upload_button" onclick="page.modIconUploadClick()" style="color: red;">Upload Image</button><br>
-        Description*: <textarea id="mod_desc_input"></textarea><br>
+        Summary*: <input type="text" id="mod_summary_input" /><br>
+        Description: <textarea id="mod_desc_input"></textarea><br>
         Category*: 
         <select id="category_input">
             <option value="tools">Armor, Tools and Weapons</option>
@@ -92,6 +95,8 @@
     <div id="new_file" style="display: none;">
         <h2>Upload new file:</h2>
         Version*: <input type=text id="version_input" /><br>
+        Minecraft Version*: <input type="text" id="mc_version_input" /><br>
+        Changelog: <textarea id="changelog_input"></textarea><br>
         Release Type: 
         <select id="release_input">
             <option value="release">Release</option>
@@ -100,6 +105,9 @@
             <option value="experimental">Experimental</option>
         </select><br>
         <input type="file" id="mod_file_input"/><button id="mod_file_button" onclick="page.saveModFile()">Upload File</button>
+        <br>
+        IPFS Hash: <input type="text" id="mod_file_ipfs_input" /><br>
+        Clearnet Download: <input type="text" id="mod_file_clearnet_input" /><br>
         <br>
         <button onclick="page.submitFile()">Save and Publish</button>
     <div>

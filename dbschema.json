@@ -30,6 +30,7 @@
                 ["name", "TEXT"],
                 ["description", "TEXT"],
                 ["category", "INTEGER"],
+                ["summary", "TEXT"],
                 ["added", "INTEGER"],
                 ["license", "TEXT"],
                 ["json_id", "INTEGER REFERENCES json (json_id)"]
@@ -55,6 +56,10 @@
                 ["version", "TEXT"],
                 ["added", "INTEGER"],
                 ["type", "TEXT"],
+                ["mc_version", "TEXT"],
+                ["changelog", "TEXT"],
+                ["clearnet", "TEXT"],
+                ["ipfs", "TEXT"],
                 ["json_id", "INTEGER REFERENCES json (json_id)"]
             ],
             "indexes": ["CREATE UNIQUE INDEX files_key ON files(file_id, json_id)"],

@@ -1,7 +1,5 @@
 class ModEntryPage extends ZeroFrame {
     
-    //var pending_image_tasks = -1
-    
     test() {
         var file = document.getElementById("mod_icon_upload").files[0]
         var reader = new FileReader();
@@ -55,13 +53,13 @@ class ModEntryPage extends ZeroFrame {
             $("creator_link").innerHTML = details[0].cert_user_id
             $("creator_link").href = "modder_profile.html?auth_address=" + details[0].directory.replace("users/", "")
             if(details[0].license && details[0].license != "")
-            //document.getElementById("div_category").innerHTML = details[0].category
                 $("license_link").innerHTML = details[0].license
             $("div_name").innerHTML = details[0].name
             $("mod_name_input").value = details[0].name
             $("div_desc").innerHTML = md.render(details[0].description)
             $("mod_desc_input").value = details[0].description
             $("category_input").value = details[0].category
+            $("mod_summary_input").value = details[0].summary
             $("mod_icon_display").src = "data/" + details[0].directory + "/topicicon_" + details[0].topic_id + ".jpg"
             if(details[0].license && details[0].license != "") {
                 $("license_input").value = details[0].license
@@ -131,7 +129,8 @@ class ModEntryPage extends ZeroFrame {
                 "topic_id": topic_id,
                 "version": $("version_input").value,
                 "added": Date.now(),
-                "type": $("release_input").value
+                "type": $("release_input").value,
+                "changelog": $("changelog_input").value
             })
             
             var json_raw = unescape(encodeURIComponent(JSON.stringify(data, undefined, '\t')))
@@ -216,6 +215,7 @@ class ModEntryPage extends ZeroFrame {
                     "description": $("mod_desc_input").value,
                     "category": $("category_input").value,
                     "license": $("license_input"),
+                    "summary": $("mod_summary_input"),
                     "added": Date.now()
                 })
             }
@@ -226,7 +226,8 @@ class ModEntryPage extends ZeroFrame {
                 file.topic[index].name = $("mod_name_input").value,
                 file.topic[index].description = $("mod_desc_input").value,
                 file.topic[index].category = $("category_input").value,
-                file.topic[index].license = $("license_input").value
+                file.topic[index].license = $("license_input").value,
+                file.topic[index].summary = $("mod_summary_input").value
             }
             var json_raw = unescape(encodeURIComponent(JSON.stringify(file, undefined, '\t')))
             
@@ -299,8 +300,10 @@ class ModEntryPage extends ZeroFrame {
 	
 	tabSelect(tab) {
         if(tab == "tab_files") {
+            if(this.filesFilled == true)
+                return false
             var fileList = $("file_list")
-            var query = "SELECT file_id, version, added, type, directory FROM files LEFT JOIN json USING (json_id) WHERE topic_id=" + this.getURLArgument("mod_id") + " AND directory=\"users/" + this.getURLArgument("modder_auth") + "\" ORDER BY added DESC"
+            var query = "SELECT file_id, version, mc_version, added, type, directory, ipfs, clearnet FROM files LEFT JOIN json USING (json_id) WHERE topic_id=" + this.getURLArgument("mod_id") + " AND directory=\"users/" + this.getURLArgument("modder_auth") + "\" ORDER BY added DESC"
             this.cmd("dbQuery", [query], (files) => {
                 for(var i = 0; i < files.length; i++) {
                     var row = document.createElement("tr")
@@ -328,6 +331,10 @@ class ModEntryPage extends ZeroFrame {
                             cellType.append(typeDiv)
                         row.append(cellType)
                         
+                        var cellMCVersion = document.createElement("td")
+                        cellMCVersion.innerHTML = files[i].mc_version
+                        row.append(cellMCVersion)
+                        
                         var cellVersion = document.createElement("td")
                         cellVersion.innerHTML = files[i].version
                         row.append(cellVersion)
@@ -335,9 +342,8 @@ class ModEntryPage extends ZeroFrame {
                         var cellDownload = document.createElement("td")
                             var downLink = document.createElement("a")
                             downLink.href = "data/" + files[i].directory + "/" + files[i].file_id + "_" + this.getURLArgument("mod_address") + ".jar"
-                            //downLink.target = "_blank"
                             downLink.download = files[i].version + ".jar"
-                            downLink.innerHTML = downLink.download + ".jar"
+                            downLink.innerHTML = files[i].mc_version + "-" + files[i].version + ".jar"
                             cellDownload.append(downLink)
                         row.append(cellDownload)
                         
@@ -359,11 +365,25 @@ class ModEntryPage extends ZeroFrame {
                         var cellAdded = document.createElement("td")
                         cellAdded.innerHTML = this.timeSince(files[i].added) + " ago"
                         row.append(cellAdded)
+                        
+                        var cellAltDown = document.createElement("td")
+                            var ipfsLink = document.createElement("a")
+                            if(files[i].ipfs) {
+                                ipfsLink.href = files[i].ipfs
+                                ipfsLink.innerHTML = "IPFS"
+                            }
+                            cellAltDown.append(ipfsLink)
+                            
+                            var clearLink = document.createElement("a")
+                            if(files[i].clearnet) {
+                                clearLink.href = files[i].clearnet
+                                clearLink.innerHTML = "clearnet"
+                            }
+                            cellAltDown.append(clearLink)
+                        row.append(cellAltDown)
                     
                     this.cmd("optionalFileInfo", ["data/" + files[i].directory + "/" + files[i].file_id + "_" + this.getURLArgument("mod_address") + ".jar"], (data) => {
                         var fileID = data.inner_path.replace("data/users/" + this.getURLArgument("modder_auth") + "/", "").replace("_" + this.getURLArgument("mod_address") + ".jar", "")
-                        this.log(data)
-                        this.log(downLink.href)
                         $("divPeerNumber" + fileID).innerHTML = data.peer
                         $("cellSize" + fileID).innerHTML = data.size
                         this.log(i + " " + data.peer)
@@ -371,7 +391,7 @@ class ModEntryPage extends ZeroFrame {
                             $("divStatus" + fileID).innerHTML = "&#10003;"
                     })
                     fileList.append(row)
-                    
+                    this.filesFilled = true
                 }
             })
         }
