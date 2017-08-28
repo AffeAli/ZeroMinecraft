@@ -1,26 +1,13 @@
 class ModEntryPage extends ZeroFrame {
-    
-    test() {
-        var file = document.getElementById("mod_icon_upload").files[0]
-        var reader = new FileReader();
-        reader.onload = function(evt) {
-            var fileData = evt.target.result;
-            var bytes = new Uint8Array(fileData);
-            var binaryText = '';
-
-            for (var index = 0; index < bytes.byteLength; index++) {
-                binaryText += String.fromCharCode( bytes[index] );
-            }
-
-            console.log(btoa(binaryText));
-
-        };
-        reader.readAsArrayBuffer(file);
-    }
 
     load() {
         var md = window.markdownit()
         md.set({ html: true })
+        
+        if(this.getURLArgument("new_mod") == "1") {
+            $("create_mod").style = ""
+            return
+        }
         
         var url = new URL(window.location.href)
         var mod_address = url.searchParams.get("mod_address")
@@ -145,22 +132,24 @@ class ModEntryPage extends ZeroFrame {
     getURLArgument(part) {
         var url = new URL(window.location.href)
         var mod_address = url.searchParams.get("mod_address")
-        var data_array = mod_address.split("_")
-        var version, mod_id, modder_auth
-        if(data_array.length > 2) {
-            version = data_array[0]
-            mod_id = data_array[1]
-            modder_auth = data_array[2]
-        }
-        else {
-            mod_id = data_array[0]
-            modder_auth = data_array[1]
+        if(mod_address) {
+            var data_array = mod_address.split("_")
+            var version, mod_id, modder_auth
+            if(data_array.length > 2) {
+                version = data_array[0]
+                mod_id = data_array[1]
+                modder_auth = data_array[2]
+            }
+            else {
+                mod_id = data_array[0]
+                modder_auth = data_array[1]
+            }
         }
         if(part == "mod_id") return parseInt(mod_id, 10)
         else if(part == "modder_auth") return modder_auth
         else if(part == "version") return parseInt(version, 10)
         else if(part == "mod_address") return mod_id + "_" + modder_auth
-        else this.log("wrong argument: " + part)
+        else return url.searchParams.get(part)
     }
     
     modIconUploadClick() {
@@ -342,8 +331,14 @@ class ModEntryPage extends ZeroFrame {
                         var cellDownload = document.createElement("td")
                             var downLink = document.createElement("a")
                             downLink.href = "data/" + files[i].directory + "/" + files[i].file_id + "_" + this.getURLArgument("mod_address") + ".jar"
+                            var fileName
+                            if(files[i].mc_version && files[i].mc_version != "")
+                                fileName = $("div_name").innerHTML + "-" + files[i].mc_version + "-" + files[i].version + ".jar"
+                            else
+                                fileName = 
+                                $("div_name").innerHTML + "-" + files[i].version + ".jar"
                             downLink.download = files[i].version + ".jar"
-                            downLink.innerHTML = files[i].mc_version + "-" + files[i].version + ".jar"
+                            downLink.innerHTML = fileName
                             cellDownload.append(downLink)
                         row.append(cellDownload)
                         
@@ -375,6 +370,7 @@ class ModEntryPage extends ZeroFrame {
                             cellAltDown.append(ipfsLink)
                             
                             var clearLink = document.createElement("a")
+                            clearLink.style = "padding-left: 10px;"
                             if(files[i].clearnet) {
                                 clearLink.href = files[i].clearnet
                                 clearLink.innerHTML = "clearnet"
