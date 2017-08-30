@@ -337,7 +337,7 @@ class ModEntryPage extends ZeroFrame {
                             else
                                 fileName = 
                                 $("div_name").innerHTML + "-" + files[i].version + ".jar"
-                            downLink.download = files[i].version + ".jar"
+                            downLink.download = fileName
                             downLink.innerHTML = fileName
                             cellDownload.append(downLink)
                         row.append(cellDownload)

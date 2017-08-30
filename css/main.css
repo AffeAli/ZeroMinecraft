@@ -138,6 +138,10 @@ div.tab button.active {
     border-top: none;
 }
 
+.tablinks {
+    color: white;
+}
+
 div.release-type {
     border-radius: 10px;
     width: 30px;
@@ -149,7 +153,6 @@ div.edit-container {
     font-size: 20px;
 }
 textarea {
-    font-size: 1.1em;
     margin: 10px;
     width: 90%;
     height: 100px;
