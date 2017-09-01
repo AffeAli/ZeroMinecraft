@@ -157,6 +157,13 @@ textarea {
     width: 90%;
     height: 100px;
 }
+.nolink {
+    text-decoration: none;
+    color: black;
+}
+a.creator {
+    color: gray;
+}
 .rainbow {
 -webkit-animation:rainbow 2s infinite;
 animation:rainbow 2s infinite;

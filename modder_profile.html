@@ -14,11 +14,12 @@
 <div class="header">
     <div class="wip-header">Early Alpha Zite!   Can break at any point!   Use at your own risk!</div>
     <ul class="navigation-list">
+        <li class="navigation-item"><a href="http://127.0.0.1:43110/zerominecraft.bit/index.html"><img src="icons/zeromc_cube.png" style="width: 45px; height: 45px;"></a></li>
         <li class="navigation-item"><a class="navigation-link" href="index.html">Home</a></li>
-        <li class="navigation-item">Blog</li>
-        <li class="navigation-item"><a class="navigation-link" href="#New+Mod" id="new_mod" onclick="return page.newMod()">+ Add new Mod</a></li>
-        <li class="navigation-item"><a class="navigation-link active" href="#Own+Page" id="own_page" onclick="return page.ownPage()">Own Page</a></li>
+        <li class="navigation-item"><a class="navigation-link" href="http://127.0.0.1:43110/blog.zerominecraft.bit">Blog</a></li>
+        <li class="navigation-item"><a class="navigation-link" href="http://127.0.0.1:43110/forum.zerominecraft.bit">Forum</a></li>
         <li class="navigation-item" style="float: right; margin-right: 75px;"><a class="navigation-link select-user-link" href="#Select+User" id="select_user" onclick="return page.selectUser()">Select User</a></li>
+        <li class="navigation-item" style="float: right;"><a class="navigation-link" href="#Own+Page" id="own_page" onclick="return page.ownPage()">Own Page</a></li>
     </ul>
 </div>
 
@@ -56,8 +57,8 @@
     <!--Username*: <input type="text" id="input_name" /><br>-->
     Picture: <input type="file" id="avatar_input"></input><button onclick="return page.avatarSubmit()">Save File</button><br>
     Description:<br><textarea id="input_desc"></textarea><br>
-    Donations:<br><textarea id="input_donate"></textarea><br>
-    Links:<br><textarea id="input_links"></textarea><br>
+    <!--Donations:<br><textarea id="input_donate"></textarea><br>
+    Links:<br><textarea id="input_links"></textarea><br>-->
     <button onclick="return page.submitAccount()">Save and Publish</button>
 </div>
 
