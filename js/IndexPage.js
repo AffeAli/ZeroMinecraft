@@ -47,16 +47,6 @@ class IndexPage extends ZeroFrame {
             $("new_mod_list").append(list)
         })
     }
-    
-    ownPage() {
-        window.location.href = "modder_profile.html?auth_address=" + this.site_info.auth_address
-        return false
-    }
-    
-    selectUser() {
-        this.cmd("certSelect", {accepted_domains: ["zeroid.bit"]})
-        return false
-    }
 
 	onOpenWebsocket() {
 		this.cmd("siteInfo", {}, (site_info) => {

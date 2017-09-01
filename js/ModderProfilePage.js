@@ -45,11 +45,6 @@ class ModderProfilePage extends ZeroFrame {
             $("mod_list").append(list)
         })
     }
-
-    selectUser() {
-        this.cmd("certSelect", {accepted_domains: ["zeroid.bit"]})
-        return false
-    }
     
     editProfile() {
         $("content_div").style = "display: none;"
