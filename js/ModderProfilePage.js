@@ -3,11 +3,6 @@ class ModderProfilePage extends ZeroFrame {
     fillList() {
         var query = "SELECT * FROM topic LEFT JOIN json USING(json_id) WHERE directory=\"users/" + this.site_info.auth_address + "\" ORDER BY added DESC"
         this.cmd("dbQuery", [query], (topics) => {
-            /*var html = "<ul class=\"project-list\">"
-            for(var i = 0; i < topics.length; i++) {
-                html += "<li class=\"project-list-item\"><a class=\"project-link\" href=\"mod_entry.html?mod_address=" + topics[i].topic_id + topics[i].directory.replace("users/", "_") + "\">" + topics[i].name + "</a></li>"
-            }
-            document.getElementById("mod_list").innerHTML = html*/
             if($("main_list"))
                 $("mod_list").removeChild($("main_list"))
             
@@ -47,8 +42,9 @@ class ModderProfilePage extends ZeroFrame {
     }
     
     editProfile() {
-        $("content_div").style = "display: none;"
-        $("create_div").style = ""
+        tV("content_div", false)
+        $("create_div_title").innerHTML = "Edit profile"
+        tV("create_div", true)
     }
     
     submitAccount() {
@@ -60,13 +56,6 @@ class ModderProfilePage extends ZeroFrame {
             else
                 data = { "username": "","topic": [], "deps": [], "files": [] }
             
-            /*var name_unprocessed = document.getElementById("input_name").value
-            if(!(/^[a-z0-9]+$/i.test(name_unprocessed))) {
-                this.cmd("wrapperNotification", [ "error", "Invalid username" ])
-                return false;
-            }
-            
-            data.username = name_unprocessed*/
             data.description = $("input_desc").value
             data.date_updated = Date.now()
             
@@ -74,8 +63,8 @@ class ModderProfilePage extends ZeroFrame {
             var json_raw = unescape(encodeURIComponent(JSON.stringify(data, undefined, '\t')))
             this.cmd("fileWrite", [data_inner_path, btoa(json_raw)], (res) => {
                 if(res == "ok") {
-                    $("content_div").style = ""
-                    $("create_div").style = "display: none;"
+                    tV("content_div", true)
+                    tV("create_div", false)
                     this.load()
                     this.cmd("siteSign", {"inner_path": content_inner_path}, (res) => {
                         this.cmd("sitePublish", {"inner_path": content_inner_path, "sign": false})
@@ -129,12 +118,12 @@ class ModderProfilePage extends ZeroFrame {
                 $("modder_icon_display").src = "data/users/" + auth_address + "/avatar.jpg"
                 
                 if(auth_address == this.site_info.auth_address)
-                    $("edit_button").style = ""
+                    tV("own_site_div", true)
             }
             else {
                 if(auth_address == this.site_info.auth_address) {
-                    $("content_div").style = "display: none;"
-                    $("create_div").style = ""
+                    tV("content_div", false)
+                    tV("create_div", true)
                 }
                 else {
                     content_div.innerHTML = "This account does not exist"

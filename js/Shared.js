@@ -24,3 +24,33 @@ function checkOptionalRegex(that, json) {
         }
     })
 }
+
+function tV(ID, value) { //Toggle visibility
+    if(value)
+        $(ID).style.display = ""
+    else
+        $(ID).style.display = "none"
+}
+
+function getURLArgument(part) {
+    var url = new URL(window.location.href)
+    var mod_address = url.searchParams.get("mod_address")
+    if(mod_address) {
+        var data_array = mod_address.split("_")
+        var version, mod_id, modder_auth
+        if(data_array.length > 2) {
+            version = data_array[0]
+            mod_id = data_array[1]
+            modder_auth = data_array[2]
+        }
+        else {
+            mod_id = data_array[0]
+            modder_auth = data_array[1]
+        }
+    }
+    if(part == "mod_id") return parseInt(mod_id, 10)
+    else if(part == "modder_auth") return modder_auth
+    else if(part == "version") return parseInt(version, 10)
+    else if(part == "mod_address") return mod_id + "_" + modder_auth
+    else return url.searchParams.get(part)
+}

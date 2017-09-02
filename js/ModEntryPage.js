@@ -5,7 +5,8 @@ class ModEntryPage extends ZeroFrame {
         md.set({ html: true })
         
         if(this.getURLArgument("new_mod") == "1") {
-            $("create_mod").style = ""
+            tV("create_mod", true)
+            tV("mod_details", false)
             return
         }
         
@@ -30,7 +31,7 @@ class ModEntryPage extends ZeroFrame {
             }
             if(details.length == 0) {
                 if(modder_auth == this.site_info.auth_address) {
-                    $("create_mod").style = ""
+                    tV("create_mod", true).style = ""
                 }
                 else {
                     $("content").innerHTML = "This mod does not exist"
@@ -54,14 +55,14 @@ class ModEntryPage extends ZeroFrame {
             }
             
             if(modder_auth == this.site_info.auth_address) {
-                $("mod_owner_options").style = ""
+                tV("mod_owner_options", true)
             }
         })
     }
     
     newFile() {
-        $("mod_details").style = "display: none;"
-        $("new_file").style = ""
+        tV("mod_details", false)
+        tV("new_file", true)
     }
     
     saveModFile() {
@@ -246,9 +247,9 @@ class ModEntryPage extends ZeroFrame {
     }
     
     editMod() {
-        $("create_mod").style = ""
-        $("mod_details").style = "display: none;"
+        tV("create_mod", true)
         $("create_mod_title").innerHTML = "Editing mod details"
+        tV("mod_details", false)
     }
 
 	onOpenWebsocket() {
