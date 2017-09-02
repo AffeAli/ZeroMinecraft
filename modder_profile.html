@@ -25,7 +25,10 @@
 
 
 <div id="content_div" class="main-container">
-    <button id="edit_button" style="display: none;" onclick="return page.editProfile()">Edit Profile</button>
+    <div id="own_site_div" style="display: none;">
+        <button id="edit_button" onclick="return page.editProfile()">Edit Profile</button>
+        <a href="mod_entry.html?new_mod=1" class="">Create new mod</a>
+    </div>
     <div id="mod_header" class="mod-header">
         <div class="avatar"><img id="modder_icon_display"></div>
         <div class="details">

@@ -185,15 +185,9 @@ class ModEntryPage extends ZeroFrame {
         this.cmd("fileGet", { "inner_path": data_inner_path, "required": true }, (file) => {
             file = JSON.parse(file)
             var topic_id = this.getURLArgument("mod_id")
-            var newTopic = false
-            if(topic_id == 99) {//TODO fix increasing next_topic_id
-                newTopic = true
-                if(file.next_topic_id)
-                    topic_id = file.next_topic_id
-                else {
-                    file.next_topic_id = 1
-                    topic_id = 1
-                }
+            var newTopic = getURLArgument("create_mod") == "1"
+            if(newTopic) {
+                topic_id = file.next_topic_id
                 file.next_topic_id += 1
             }
             
@@ -254,6 +248,7 @@ class ModEntryPage extends ZeroFrame {
     editMod() {
         $("create_mod").style = ""
         $("mod_details").style = "display: none;"
+        $("create_mod_title").innerHTML = "Editing mod details"
     }
 
 	onOpenWebsocket() {
